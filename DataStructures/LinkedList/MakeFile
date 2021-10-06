@@ -1,0 +1,21 @@
+all: test_lib
+
+setup:
+	@mkdir -p bin
+
+build_test: setup
+	@gcc -g -I. -Wall -Werror -o bin/TestLinkedList src/linked_list.c tests/linked_list_test.c -lcunit
+
+test: build_test
+	@bin/TestLinkedList
+
+build_lib: setup
+	@gcc -o bin/liblinked_list.so -fpic -shared src/linked_list.c
+
+test_lib: build_lib
+	@gcc -c tests/linked_list_test.c -o bin/linked_list_test.o
+	@gcc -g -I. -Wall -Werror -o bin/TestLinkedList bin/linked_list_test.o -lcunit -llinked_list -L./bin/
+	@LD_LIBRARY_PATH=bin/ ./bin/TestLinkedList
+
+clean:
+	@$(RM) -rf bin/*
