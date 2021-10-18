@@ -15,8 +15,11 @@ jobs:
     - uses: actions/checkout@v2
 #     - name: configure
 #       run: ./configure
+    - name: change-dir
+      run: cd ./DataStructures/LinkedList/
+    
     - name: make
-      run: ./DataStructures/LinkedList/make
+      run: make
 #     - name: make check
 #       run: make check
 #     - name: make distcheck
